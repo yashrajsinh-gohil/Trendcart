@@ -1,6 +1,10 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "/api";
 
+if (import.meta.env.DEV) {
+  console.log(`[API] Base URL: ${API_BASE_URL}`);
+}
+
 export const getAuthToken = () => localStorage.getItem("trendcart_token") || "";
 
 const parseErrorMessage = (payload, fallback) => {
@@ -20,6 +24,7 @@ const createApiError = (payload, fallback) => {
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = getAuthToken();
+  const url = `${API_BASE_URL}${endpoint}`;
   const headers = {
     "Content-Type": "application/json",
     ...(options.headers || {}),
@@ -29,7 +34,11 @@ export const apiRequest = async (endpoint, options = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  if (import.meta.env.DEV) {
+    console.log(`[API] Request: ${options.method || 'GET'} ${url}`);
+  }
+
+  const response = await fetch(url, {
     ...options,
     headers,
   });
@@ -38,6 +47,10 @@ export const apiRequest = async (endpoint, options = {}) => {
   const payload = contentType.includes("application/json")
     ? await response.json()
     : null;
+
+  if (import.meta.env.DEV) {
+    console.log(`[API] Response: ${response.status} ${url}`, payload);
+  }
 
   if (!response.ok) {
     throw createApiError(payload, "Request failed");

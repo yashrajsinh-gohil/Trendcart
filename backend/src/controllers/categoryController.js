@@ -5,7 +5,9 @@ import Category from '../models/Category.js';
 // @access  Public
 export const getAllCategories = async (req, res, next) => {
   try {
+    console.log('[Category] getAllCategories called');
     const categories = await Category.find().sort({ createdAt: -1 });
+    console.log(`[Category] getAllCategories count=${categories.length}`);
 
     res.status(200).json({
       success: true,
@@ -22,6 +24,7 @@ export const getAllCategories = async (req, res, next) => {
 // @access  Public
 export const getCategoryById = async (req, res, next) => {
   try {
+    console.log(`[Category] getCategoryById id=${req.params.id}`);
     const category = await Category.findById(req.params.id);
 
     if (!category) {

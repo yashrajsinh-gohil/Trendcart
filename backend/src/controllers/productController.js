@@ -5,6 +5,7 @@ import Product from '../models/Product.js';
 // @access  Public
 export const getAllProducts = async (req, res, next) => {
   try {
+    console.log('[Product] getAllProducts called', req.query);
     const { category, minPrice, maxPrice, search } = req.query;
     const query = {};
 
@@ -28,6 +29,7 @@ export const getAllProducts = async (req, res, next) => {
     const products = await Product.find(query)
       .populate('category', 'name')
       .sort({ createdAt: -1 });
+    console.log(`[Product] getAllProducts count=${products.length}`);
 
     res.status(200).json({
       success: true,
@@ -44,6 +46,7 @@ export const getAllProducts = async (req, res, next) => {
 // @access  Public
 export const getProductById = async (req, res, next) => {
   try {
+    console.log(`[Product] getProductById id=${req.params.id}`);
     const product = await Product.findById(req.params.id).populate('category');
 
     if (!product) {
@@ -158,9 +161,11 @@ export const deleteProduct = async (req, res, next) => {
 // @access  Public
 export const getProductsByCategory = async (req, res, next) => {
   try {
+    console.log(`[Product] getProductsByCategory categoryId=${req.params.categoryId}`);
     const products = await Product.find({ category: req.params.categoryId })
       .populate('category', 'name')
       .sort({ createdAt: -1 });
+    console.log(`[Product] getProductsByCategory count=${products.length}`);
 
     res.status(200).json({
       success: true,

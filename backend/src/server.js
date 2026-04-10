@@ -25,6 +25,11 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use((req, res, next) => {
+  console.log(`[API] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -63,6 +68,8 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
+    console.log(`[ENV] MONGO_URI configured: ${Boolean(process.env.MONGO_URI || process.env.MONGODB_URI)}`);
+    console.log(`[ENV] CORS_ORIGIN: ${corsOrigin}`);
     await connectDB();
 
     const server = app.listen(PORT, () => {
