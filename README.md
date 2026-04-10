@@ -198,11 +198,11 @@ Add screenshots before final submission.
 
 ## Deployment Links
 
-Add final deployed links here.
+Live deployment links:
 
-- Frontend: `<frontend-deployment-link>`
-- Backend API: `<backend-deployment-link>`
-- API documentation / Postman collection (optional): `<docs-link>`
+- Frontend: `https://trendcart-frontend-smoky.vercel.app`
+- Backend API: `https://trendcart-frontend-smoky.vercel.app/api`
+- Health Check: `https://trendcart-frontend-smoky.vercel.app/api/health`
 
 ## Scripts
 
