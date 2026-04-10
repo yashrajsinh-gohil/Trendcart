@@ -17,13 +17,8 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
-const corsOrigin = (process.env.CORS_ORIGIN || 'http://localhost:5173').trim();
-
 // Middleware
-app.use(cors({
-  origin: corsOrigin,
-  credentials: true,
-}));
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log(`[API] ${req.method} ${req.originalUrl}`);
@@ -44,6 +39,7 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
@@ -69,7 +65,7 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   try {
     console.log(`[ENV] MONGO_URI configured: ${Boolean(process.env.MONGO_URI || process.env.MONGODB_URI)}`);
-    console.log(`[ENV] CORS_ORIGIN: ${corsOrigin}`);
+    console.log('[ENV] CORS middleware: enabled for all origins');
     await connectDB();
 
     const server = app.listen(PORT, () => {

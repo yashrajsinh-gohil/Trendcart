@@ -1,8 +1,7 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "/api";
+import { API_URL } from "../config/api";
 
 if (import.meta.env.DEV) {
-  console.log(`[API] Base URL: ${API_BASE_URL}`);
+  console.log(`[API] Base URL: ${API_URL || "(same origin)"}`);
 }
 
 export const getAuthToken = () => localStorage.getItem("trendcart_token") || "";
@@ -24,7 +23,7 @@ const createApiError = (payload, fallback) => {
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = getAuthToken();
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_URL}/api${endpoint}`;
   const headers = {
     "Content-Type": "application/json",
     ...(options.headers || {}),
