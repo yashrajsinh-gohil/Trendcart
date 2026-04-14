@@ -7,6 +7,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import App from './App.jsx';
 import ErrorHandling from './components/ErrorHandling.jsx';
 
+console.log('Vercel deployment updated');
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorHandling>
